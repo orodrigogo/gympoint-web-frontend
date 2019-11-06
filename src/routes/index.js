@@ -4,13 +4,13 @@ import Route from "./Route";
 
 /* PAGES */
 import SignIn from "../pages/SignIn";
-import Home from "../pages/home";
+import StudentList from "../pages/StudentList";
 
 export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
-      <Route path="/home" exact component={Home} isPrivate />
+      <Route path="/home" exact component={StudentList} isPrivate />
 
       <Route path="/" component={() => <h1>404</h1>} />
     </Switch>
