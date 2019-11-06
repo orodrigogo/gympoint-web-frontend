@@ -1,5 +1,5 @@
 import React from "react";
-import { MdControlPoint } from "react-icons/md";
+import { MdControlPoint, MdSearch } from "react-icons/md";
 
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,10 @@ export default function StudentList() {
             <MdControlPoint color="#FFF" fontSize={18} />
             CADASTRAR
           </Link>
-          <input placeholder="Buscar aluno" />
+          <div>
+            <MdSearch color="#999" fontSize={18} />
+            <input placeholder="Buscar aluno" />
+          </div>
         </aside>
       </header>
       <Content>

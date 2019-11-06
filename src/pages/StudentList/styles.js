@@ -43,14 +43,22 @@ export const Container = styled.div`
         }
       }
 
-      input {
+      div {
         margin-left: 15px;
-        width: 237px;
-        height: 36px;
         border-radius: 4px;
         border: solid 1px #dddddd;
         background-color: #ffffff;
-        padding-left: 15px;
+        width: 237px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+
+        input {
+          padding: 8px 10px;
+          background-color: #ffffff;
+          border: none;
+        }
       }
     }
   }
