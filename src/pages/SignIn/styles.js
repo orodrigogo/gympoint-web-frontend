@@ -42,6 +42,12 @@ export const Container = styled.div`
       font-size: 16px;
     }
 
+    > span {
+      display: block;
+      text-align: center;
+      color: #ee4d64;
+    }
+
     button {
       width: 90%;
       margin: 0 auto;
