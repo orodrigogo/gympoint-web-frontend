@@ -1,7 +1,21 @@
 import React from "react";
+import { Form, Input } from "@rocketseat/unform";
 
-// import { Container } from './styles';
+import { Wrapper, Container, Logo } from "./styles";
+import logo from "../../assets/logo.svg";
 
 export default function SignIn() {
-  return <h1>Login</h1>;
+  return (
+    <Wrapper>
+      <Container>
+        <img src={logo} alt="Gympoint" />
+
+        <Form>
+          <Input name="email" type="email" placeholder="exemplo@email.com" />
+          <Input name="password" type="password" placeholder="*************" />
+          <button type="submit">Entrar no sistema</button>
+        </Form>
+      </Container>
+    </Wrapper>
+  );
 }
