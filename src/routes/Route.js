@@ -18,7 +18,7 @@ export default function RouterWrapper({
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/home" />;
   }
 
   // Carregando o layout baseano na autenticacao. Crio o Layout com L maisculo para ser entendido pelo JSX como um componente.
