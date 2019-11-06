@@ -1,4 +1,5 @@
 import React from "react";
+import { ToastContainer } from "react-toastify";
 import { Router } from "react-router-dom";
 
 // Para capturar os logs com o Reactotron.
@@ -20,6 +21,7 @@ function App() {
       <PersistGate persistor={persistor}>
         <Router history={history}>
           <GlobalStyles />
+          <ToastContainer autoClose={3000} />
           <Routes />
         </Router>
       </PersistGate>
