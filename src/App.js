@@ -1,20 +1,29 @@
 import React from "react";
 import { Router } from "react-router-dom";
 
-import GlobalStyles from "./styles/global";
-
 // Para capturar os logs com o Reactotron.
 import "./config/ReactotronConfig";
+
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+
+import GlobalStyles from "./styles/global";
+
+import { store, persistor } from "./store";
 
 import Routes from "./routes";
 import history from "./services/history";
 
 function App() {
   return (
-    <Router history={history}>
-      <GlobalStyles />
-      <Routes />
-    </Router>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Router history={history}>
+          <GlobalStyles />
+          <Routes />
+        </Router>
+      </PersistGate>
+    </Provider>
   );
 }
 
