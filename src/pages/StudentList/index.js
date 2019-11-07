@@ -29,7 +29,7 @@ export default function StudentList() {
       <header>
         <h1>Gerenciando alunos</h1>
         <aside>
-          <Link to="/registerStudent">
+          <Link to="/studentregister">
             <MdControlPoint color="#FFF" fontSize={18} />
             CADASTRAR
           </Link>
