@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdControlPoint, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { Container, Content } from "./styles";
 
@@ -23,6 +24,24 @@ export default function StudentList() {
 
     console.tron.log(students);
   }, [searchName]);
+
+  async function handleDelete(id) {
+    if (window.confirm("Deseja realmente excluír esse aluno?")) {
+      await api
+        .delete(`students/${id}`)
+        .then(response => {
+          if (response.data.deleted) {
+            toast.success("Usuário excluído com sucesso!");
+            setSearchName("");
+          }
+        })
+        .catch(error => {
+          toast.error(
+            `Não foi possível excluír o aluno. Detalhes: ${error.message}`
+          );
+        });
+    }
+  }
 
   return (
     <Container>
@@ -62,7 +81,11 @@ export default function StudentList() {
                   <button className="btnEdit" type="button">
                     editar
                   </button>
-                  <button className="btnDelete" type="button">
+                  <button
+                    className="btnDelete"
+                    type="button"
+                    onClick={() => handleDelete(student.id)}
+                  >
                     apagar
                   </button>
                 </td>
