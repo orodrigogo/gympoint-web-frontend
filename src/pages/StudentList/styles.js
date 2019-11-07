@@ -96,6 +96,7 @@ export const Content = styled.div`
           button {
             background: none;
             border: none;
+            margin: 0 10px;
           }
 
           > .btnEdit {
@@ -108,6 +109,10 @@ export const Content = styled.div`
             font-family: Roboto;
             font-size: 15px;
             color: #de3b3b;
+          }
+
+          &:last-child {
+            text-align: right;
           }
         }
       }

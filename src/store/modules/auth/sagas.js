@@ -23,4 +23,18 @@ export function* signIn({ payload }) {
   }
 }
 
-export default all([takeLatest("@auth/SIGN_IN_REQUEST", signIn)]);
+export function setToken({ payload }) {
+  if (!payload) return;
+
+  const { token } = payload.auth;
+
+  if (token) {
+    // Caso o usuário dê F5 ou atualize a pagina, recuperamos o token e Armazenando no axios, no cabecalho das requisicoes o token do usuário.
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+  }
+}
+
+export default all([
+  takeLatest("@auth/SIGN_IN_REQUEST", signIn),
+  takeLatest("persist/REHYDRATE", setToken)
+]);
