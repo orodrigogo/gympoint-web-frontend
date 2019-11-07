@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MdControlPoint, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import history from "../../services/history";
 
 import { Container, Content } from "./styles";
 
@@ -43,6 +44,10 @@ export default function StudentList() {
     }
   }
 
+  async function handleEdit(id) {
+    history.push(`studentregister/${id}`);
+  }
+
   return (
     <Container>
       <header>
@@ -78,7 +83,11 @@ export default function StudentList() {
                 <td>{student.email}</td>
                 <td>{student.age}</td>
                 <td>
-                  <button className="btnEdit" type="button">
+                  <button
+                    className="btnEdit"
+                    type="button"
+                    onClick={() => handleEdit(student.id)}
+                  >
                     editar
                   </button>
                   <button
