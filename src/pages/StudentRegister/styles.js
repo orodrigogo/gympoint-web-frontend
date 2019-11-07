@@ -64,6 +64,19 @@ export const Content = styled.div`
 
   form {
     padding: 20px;
+
+    > .same-row {
+      display: flex;
+      flex-direction: row;
+
+      div {
+        margin-left: 20px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
   }
 
   div {
@@ -93,19 +106,6 @@ export const Content = styled.div`
       font-size: 14px;
       color: #de3b3b;
       margin-top: 5px;
-    }
-
-    > .same-row {
-      display: flex;
-      flex-direction: row;
-
-      div {
-        margin-left: 20px;
-
-        &:first-child {
-          margin-left: 0;
-        }
-      }
     }
   }
 `;

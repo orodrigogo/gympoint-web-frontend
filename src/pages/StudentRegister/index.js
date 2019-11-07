@@ -86,7 +86,7 @@ export default function StudentRegister({ match }) {
   return (
     <Container>
       <header>
-        <h1>Gerenciando alunos</h1>
+        <h1>{edit ? "Edição de aluno" : "Cadastro de aluno"}</h1>
         <aside>
           <button className="return" type="button" onClick={handleReturn}>
             <MdArrowBack color="#FFF" fontSize={18} />

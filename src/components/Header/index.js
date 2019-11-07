@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { signOut } from "../../store/modules/auth/actions";
 
@@ -9,6 +9,7 @@ import { Container } from "./styles";
 import logo from "../../assets/logoheader.svg";
 
 export default function Header() {
+  const userName = useSelector(state => state.auth.name);
   const dispath = useDispatch();
 
   function handleSingOut() {
@@ -40,7 +41,7 @@ export default function Header() {
       </nav>
 
       <aside>
-        <span>Rodrigo Gonçalves</span>
+        <span>{userName}</span>
         <button type="button" onClick={handleSingOut}>
           sair do sistema
         </button>
