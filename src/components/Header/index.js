@@ -1,11 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { signOut } from "../../store/modules/auth/actions";
 
 import { Container } from "./styles";
 
 import logo from "../../assets/logoheader.svg";
 
 export default function Header() {
+  const dispath = useDispatch();
+
+  function handleSingOut() {
+    dispath(signOut());
+  }
+
   return (
     <Container>
       <nav>
@@ -32,7 +41,9 @@ export default function Header() {
 
       <aside>
         <span>Rodrigo Gonçalves</span>
-        <button type="button">sair do sistema</button>
+        <button type="button" onClick={handleSingOut}>
+          sair do sistema
+        </button>
       </aside>
     </Container>
   );
