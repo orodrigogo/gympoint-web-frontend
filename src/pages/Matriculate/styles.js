@@ -65,6 +65,11 @@ export const Content = styled.div`
   form {
     padding: 20px;
 
+    .note {
+      font-size: 10px;
+      color: #ee4d64;
+    }
+
     h3 {
       font-family: Roboto;
       font-size: 14px;
@@ -91,8 +96,16 @@ export const Content = styled.div`
           margin: 20px 0;
         }
 
+        select {
+          height: 40px;
+          border-radius: 4px;
+          border: solid 1px #dddddd;
+          background-color: #ffffff;
+          padding-left: 10px;
+        }
+
         input {
-          height: 45px;
+          height: 40px;
           border-radius: 4px;
           border: solid 1px #dddddd;
           background-color: #ffffff;
