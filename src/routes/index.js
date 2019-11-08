@@ -8,6 +8,7 @@ import StudentList from "../pages/StudentList";
 import StudentRegister from "../pages/StudentRegister";
 import PlanList from "../pages/PlanList";
 import PlanRegister from "../pages/PlanRegister";
+import Matriculate from "../pages/Matriculate";
 
 export default function Routes() {
   return (
@@ -28,6 +29,14 @@ export default function Routes() {
       />
       <Route path="/plans" exact component={PlanList} isPrivate />
       <Route path="/planregister" exact component={PlanRegister} isPrivate />
+      <Route
+        path="/planregister/:id"
+        exact
+        component={PlanRegister}
+        isPrivate
+      />
+
+      <Route path="/matriculate" exact component={Matriculate} isPrivate />
 
       <Route path="/" component={() => <h1>404</h1>} />
     </Switch>

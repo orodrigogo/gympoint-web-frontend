@@ -65,26 +65,6 @@ export const Content = styled.div`
   form {
     padding: 20px;
 
-    > .same-row {
-      display: flex;
-      flex-direction: row;
-
-      div {
-        margin-left: 20px;
-
-        &:first-child {
-          margin-left: 0;
-        }
-      }
-    }
-  }
-
-  div {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 20px 0;
-
     h3 {
       font-family: Roboto;
       font-size: 14px;
@@ -93,27 +73,47 @@ export const Content = styled.div`
       margin-bottom: 5px;
     }
 
-    input {
-      height: 45px;
-      border-radius: 4px;
-      border: solid 1px #dddddd;
-      background-color: #ffffff;
-      padding-left: 10px;
+    > .same-row {
+      display: flex;
+      flex-direction: row;
 
-      &:read-only {
-        background: #ddd;
+      div {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 20px 10px;
 
-        &:hover {
-          cursor: not-allowed;
+        &:first-child {
+          margin: 20px 0;
+        }
+
+        &:last-child {
+          margin: 20px 0;
+        }
+
+        input {
+          height: 45px;
+          border-radius: 4px;
+          border: solid 1px #dddddd;
+          background-color: #ffffff;
+          padding-left: 10px;
+
+          &:read-only {
+            background: #ddd;
+
+            &:hover {
+              cursor: not-allowed;
+            }
+          }
+        }
+
+        span {
+          font-family: Roboto;
+          font-size: 14px;
+          color: #de3b3b;
+          margin-top: 5px;
         }
       }
-    }
-
-    span {
-      font-family: Roboto;
-      font-size: 14px;
-      color: #de3b3b;
-      margin-top: 5px;
     }
   }
 `;

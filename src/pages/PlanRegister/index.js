@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { MdControlPoint, MdArrowBack } from "react-icons/md";
 import { Form, Input } from "@rocketseat/unform";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { formatPrice } from "../../utils/ format";
 
 import { Container, Content } from "./styles";
 
@@ -17,12 +18,22 @@ export default function PlanRegister({ match }) {
     price: Yup.string().required("O valor do plano é obrigatória")
   });
 
-  const [plan, setPlan] = useState([]);
+  const [title, setTitle] = useState();
+  const [duration, setDuration] = useState();
+  const [price, setPrice] = useState();
   const [edit, setEdit] = useState(false);
 
+  const totalPrice = useMemo(
+    () => (!price ? formatPrice(0) : formatPrice(duration * price)),
+    [duration, price]
+  );
+
   async function loadPlan(id) {
-    const response = await api.get(`plans/${id}`);
-    loadPlan(response.data);
+    const { data } = await api.get(`plans/${id}`);
+
+    setTitle(data.title);
+    setDuration(data.duration);
+    setPrice(data.price);
   }
 
   useEffect(() => {
@@ -103,8 +114,8 @@ export default function PlanRegister({ match }) {
             <Input
               name="title"
               type="text"
-              value={plan ? plan.title : null}
-              onChange={e => setPlan({ title: e.target.value })}
+              value={title || null}
+              onChange={e => setTitle(e.target.value)}
             />
           </div>
 
@@ -114,8 +125,8 @@ export default function PlanRegister({ match }) {
               <Input
                 name="duration"
                 type="number"
-                value={plan ? plan.duration : null}
-                onChange={e => setPlan({ duration: e.target.value })}
+                value={duration || null}
+                onChange={e => setDuration(e.target.value)}
               />
             </div>
 
@@ -123,15 +134,14 @@ export default function PlanRegister({ match }) {
               <h3>PREÇO MENSAL</h3>
               <Input
                 name="price"
-                type="text"
-                value={plan ? plan.price : null}
-                onChange={e => setPlan({ price: e.target.value })}
+                value={price || null}
+                onChange={e => setPrice(e.target.value)}
               />
             </div>
 
             <div>
               <h3>PREÇO TOTAL</h3>
-              <Input readOnly name="height" type="text" />
+              <Input readOnly name="height" type="text" value={totalPrice} />
             </div>
           </div>
         </Form>
