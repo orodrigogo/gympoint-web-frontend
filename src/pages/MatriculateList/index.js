@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { MdControlPoint, MdCheck } from "react-icons/md";
+import { MdControlPoint } from "react-icons/md";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { toast } from "react-toastify";
+import { format, parseISO } from "date-fns";
+import pt from "date-fns/locale/pt";
 import history from "../../services/history";
 
 import { Container, Content } from "./styles";
@@ -13,15 +15,51 @@ import { formatPrice } from "../../utils/ format";
 export default function MatriculateList() {
   const [registers, setRegisters] = useState([]);
 
-  useEffect(() => {
-    async function loadRegisters() {
-      await api.get("registrations").then(response => {
-        setRegisters(response.data);
-      });
-    }
+  async function loadRegisters() {
+    await api.get("registrations").then(response => {
+      setRegisters(
+        response.data.map(item => ({
+          ...item,
+          startDateFormatted: format(
+            parseISO(item.start_date),
+            "d 'de' MMMM 'de' yyyy",
+            {
+              locale: pt
+            }
+          ),
+          endDateFormatted: format(
+            parseISO(item.end_date),
+            "d 'de' MMMM 'de' yyyy",
+            {
+              locale: pt
+            }
+          )
+        }))
+      );
+    });
+  }
 
+  useEffect(() => {
     loadRegisters();
   }, []);
+
+  async function handleDelete(id) {
+    if (window.confirm("Deseja realmente excluír essa matrícula?")) {
+      await api
+        .delete(`registrations/${id}`)
+        .then(response => {
+          if (response.data.deleted) {
+            toast.success("Matrícula removida com sucesso!");
+            loadRegisters();
+          }
+        })
+        .catch(error => {
+          toast.error(
+            `Não foi possível remover a matrícula. Detalhes: ${error.message}`
+          );
+        });
+    }
+  }
 
   return (
     <Container>
@@ -51,8 +89,8 @@ export default function MatriculateList() {
               <tr isActive>
                 <td>{register.student.name}</td>
                 <td>{register.plan.title}</td>
-                <td>{register.start_date}</td>
-                <td>{register.end_date}</td>
+                <td>{register.startDateFormatted}</td>
+                <td>{register.endDateFormatted}</td>
                 <td>
                   <IoIosCheckmarkCircle
                     fontSize={22}
@@ -63,7 +101,11 @@ export default function MatriculateList() {
                   <button className="btnEdit" type="button">
                     editar
                   </button>
-                  <button className="btnDelete" type="button">
+                  <button
+                    className="btnDelete"
+                    type="button"
+                    onClick={() => handleDelete(register.id)}
+                  >
                     apagar
                   </button>
                 </td>
