@@ -8,7 +8,8 @@ import StudentList from "../pages/StudentList";
 import StudentRegister from "../pages/StudentRegister";
 import PlanList from "../pages/PlanList";
 import PlanRegister from "../pages/PlanRegister";
-import Matriculate from "../pages/Matriculate";
+import MatriculateRegister from "../pages/MatriculateRegister";
+import MatriculateList from "../pages/MatriculateList";
 
 export default function Routes() {
   return (
@@ -36,7 +37,14 @@ export default function Routes() {
         isPrivate
       />
 
-      <Route path="/matriculate" exact component={Matriculate} isPrivate />
+      <Route
+        path="/matriculateregister"
+        exact
+        component={MatriculateRegister}
+        isPrivate
+      />
+
+      <Route path="/matriculates" exact component={MatriculateList} isPrivate />
 
       <Route path="/" component={() => <h1>404</h1>} />
     </Switch>

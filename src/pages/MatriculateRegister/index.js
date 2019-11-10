@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import AsyncSelect from "react-select/async";
 
 import api from "../../services/api";
+import history from '../../services/history';
 
 import { Container, Content } from "./styles";
 
@@ -83,8 +84,10 @@ export default function Matriculate() {
     if(!studentSelected || !planSelected || !students){
           toast.warning("Lembre-se de selecionar o aluno, o plano e a data de início!");
     }else{
-        await api.post(`registrations/${planSelected}/${studentSelected.value}?start_date=${dateSelected}`).then(
+        await api.post(`registrations/${planSelected}/${studentSelected.value}?start_date=${dateSelected}`).then(() => {
             toast.success("Matrícula efetivada com sucesso!")
+            history.goBack()
+        }
         ).catch(error => {
           toast.error(error)
           console.tron.log(error)})
@@ -102,7 +105,7 @@ export default function Matriculate() {
           <button
             className="return"
             type="button"
-            onClick={() => alert(students.length)}
+            onClick={() =>  history.goBack()}
           >
             <MdArrowBack color="#FFF" fontSize={18} />
             VOLTAR

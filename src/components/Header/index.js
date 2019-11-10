@@ -31,7 +31,7 @@ export default function Header() {
             <Link to="/plans">PLANOS</Link>
           </li>
           <li>
-            <Link to="/matriculate">MATRÍCULAS</Link>
+            <Link to="/matriculates">MATRÍCULAS</Link>
           </li>
 
           <li>
