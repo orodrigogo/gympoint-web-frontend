@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { MdControlPoint, MdArrowBack } from "react-icons/md";
-import { Form, Input } from "@rocketseat/unform";
-import * as Yup from "yup";
+import { Input } from "@rocketseat/unform";
 import { formatPrice } from "../../utils/ format";
-import { addMonths, format } from 'date-fns';
+import { addMonths, format, parseISO } from 'date-fns';
 import { toast } from "react-toastify";
 
 import AsyncSelect from "react-select/async";
-import Select from "react-select";
 
 import api from "../../services/api";
 
 import { Container, Content } from "./styles";
 
 export default function Matriculate() {
-  /* SCHEMA COM YUP */
-  const schema = Yup.object().shape({
-    student: Yup.string().required("O aluno é obrigatório"),
-    plan: Yup.string().required("O plano é obrigatório"),
-    start_date: Yup.date().required("A data de início é obrigatória")
-  });
 
   const [students, setStudents] = useState([]);
   const [plans, setPlans] = useState([]);
@@ -29,6 +21,8 @@ export default function Matriculate() {
   const [endDate, setEndDate] = useState();
   const [totalPrice, setTotalPrice] = useState();
   const [planSelected, setPlanSelected] = useState();
+  //é um objeto porque guardo label = nome e value = id.
+  const [studentSelected, setStudentSelected] = useState([]);
 
   useEffect(() => {
     async function loadData() {
@@ -70,7 +64,7 @@ export default function Matriculate() {
 
   useEffect(() => {
 
-    if(planSelected){
+    if(planSelected && students){
 
           //Primeiro localizo o plano.
           const planIndex_selected = plans.findIndex(plan => plan.id == planSelected)
@@ -85,7 +79,17 @@ export default function Matriculate() {
 
   },[planSelected, dateSelected])
 
-
+  async function handleRegister(){
+    if(!studentSelected || !planSelected || !students){
+          toast.warning("Lembre-se de selecionar o aluno, o plano e a data de início!");
+    }else{
+        await api.post(`registrations/${planSelected}/${studentSelected.value}?start_date=${dateSelected}`).then(
+            toast.success("Matrícula efetivada com sucesso!")
+        ).catch(error => {
+          toast.error(error)
+          console.tron.log(error)})
+    }
+  }
 
 
 
@@ -103,17 +107,17 @@ export default function Matriculate() {
             <MdArrowBack color="#FFF" fontSize={18} />
             VOLTAR
           </button>
-          <button type="submit" form="registerForm">
+          <button type="submit" onClick={handleRegister}>
             <MdControlPoint color="#FFF" fontSize={18} />
             SALVAR
           </button>
         </aside>
       </header>
       <Content>
-        <Form id="registerForm" schema={schema}>
+        <form>
           <div>
             <h3>ALUNO</h3>
-            <AsyncSelect cacheOptions loadOptions={loadOptionsStudent} defaultOptions={students} placeholder="Pesquise e selecione um aluno..." />
+            <AsyncSelect cacheOptions loadOptions={loadOptionsStudent} defaultOptions={students} placeholder="Pesquise e selecione um aluno..." onChange={(option) => setStudentSelected(option)} />
           </div>
 
           <div className="same-row">
@@ -145,10 +149,7 @@ export default function Matriculate() {
 
           <span className="note">{noteMsg}</span>
 
-
-
-
-        </Form>
+        </form>
       </Content>
     </Container>
   );
