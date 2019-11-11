@@ -45,6 +45,12 @@ export default function Routes() {
       />
 
       <Route path="/matriculates" exact component={MatriculateList} isPrivate />
+      <Route
+        path="/matriculateregister/:id"
+        exact
+        component={MatriculateRegister}
+        isPrivate
+      />
 
       <Route path="/" component={() => <h1>404</h1>} />
     </Switch>

@@ -12,7 +12,7 @@ import history from '../../services/history';
 
 import { Container, Content } from "./styles";
 
-export default function Matriculate() {
+export default function Matriculate({ match }) {
 
   const [students, setStudents] = useState([]);
   const [plans, setPlans] = useState([]);
@@ -25,29 +25,40 @@ export default function Matriculate() {
   //é um objeto porque guardo label = nome e value = id.
   const [studentSelected, setStudentSelected] = useState([]);
 
+
+  async function loadData() {
+
+    await api.get("students").then(response => {
+      const listFormated = response.data.map(e => ({
+        value: e.id,
+        label: e.name
+      }));
+
+      setStudents(listFormated);
+
+    }).then(
+      await api.get("plans").then(response => {
+        setPlans(response.data);
+      })
+    )
+    }
+
   useEffect(() => {
-    async function loadData() {
-
-      await api.get("students").then(response => {
-        const listFormated = response.data.map(e => ({
-          value: e.id,
-          label: e.name
-        }));
-
-        setStudents(listFormated);
-      });
-
-
-        await api.get("plans").then(response => {
-          setPlans(response.data);
-        });
-
-      }
-
     loadData();
 
+    if(match.params.id){
+      setEdit(true);
+      loadDatasForEdit();
+    }
   }, []);
 
+  async function loadDatasForEdit(){
+    await api.get(`registrations/${match.params.id}`).then(response => {
+      setStudentSelected(response.data.student_id)
+      setDateSelected(format(parseISO(response.data.start_date), "yyyy-MM-dd"))
+      setPlanSelected(response.data.plan_id)
+    });
+  }
 
 
   const filterStudents = (inputValue: string) => {
@@ -65,7 +76,7 @@ export default function Matriculate() {
 
   useEffect(() => {
 
-    if(planSelected && students){
+    if(planSelected && plans){
 
           //Primeiro localizo o plano.
           const planIndex_selected = plans.findIndex(plan => plan.id == planSelected)
@@ -94,7 +105,19 @@ export default function Matriculate() {
     }
   }
 
-
+async function handleSave(){
+  if(!studentSelected || !planSelected || !students){
+        toast.warning("Lembre-se de selecionar o aluno, o plano e a data de início!");
+  }else{
+      await api.put(`registrations/${match.params.id}`,{start_date: dateSelected, student_id: studentSelected, plan_id: planSelected }).then(() => {
+          toast.success("Matrícula atualizada com sucesso!")
+          history.goBack()
+      }
+      ).catch(error => {
+        toast.error(error)
+        console.tron.log(error)})
+  }
+}
 
   return (
     <Container>
@@ -110,7 +133,7 @@ export default function Matriculate() {
             <MdArrowBack color="#FFF" fontSize={18} />
             VOLTAR
           </button>
-          <button type="submit" onClick={handleRegister}>
+          <button type="submit" onClick={edit ? handleSave : handleRegister}>
             <MdControlPoint color="#FFF" fontSize={18} />
             SALVAR
           </button>
@@ -120,13 +143,13 @@ export default function Matriculate() {
         <form>
           <div>
             <h3>ALUNO</h3>
-            <AsyncSelect cacheOptions loadOptions={loadOptionsStudent} defaultOptions={students} placeholder="Pesquise e selecione um aluno..." onChange={(option) => setStudentSelected(option)} />
+            <AsyncSelect cacheOptions loadOptions={loadOptionsStudent} defaultOptions={students} placeholder="Pesquise e selecione um aluno..." onChange={(option) => setStudentSelected(option.value)} value={students.filter(option => option.value === studentSelected)} />
           </div>
 
           <div className="same-row">
             <div>
               <h3>PLANO</h3>
-              <select onChange={e => setPlanSelected(e.target.value)}>
+              <select onChange={e => setPlanSelected(e.target.value)} value={planSelected}>
               <option value="" disabled selected>Selecione um plano</option>
                 {plans.map(p => (
                 <option value={p.id}>{p.title}</option>

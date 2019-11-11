@@ -10,7 +10,6 @@ import history from "../../services/history";
 import { Container, Content } from "./styles";
 
 import api from "../../services/api";
-import { formatPrice } from "../../utils/ format";
 
 export default function MatriculateList() {
   const [registers, setRegisters] = useState([]);
@@ -61,6 +60,10 @@ export default function MatriculateList() {
     }
   }
 
+  async function handleEdit(id) {
+    history.push(`matriculateregister/${id}`);
+  }
+
   return (
     <Container>
       <header>
@@ -98,7 +101,11 @@ export default function MatriculateList() {
                   />
                 </td>
                 <td>
-                  <button className="btnEdit" type="button">
+                  <button
+                    className="btnEdit"
+                    type="button"
+                    onClick={() => handleEdit(register.id)}
+                  >
                     editar
                   </button>
                   <button
