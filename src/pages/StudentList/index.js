@@ -16,7 +16,7 @@ export default function StudentList() {
   async function searchStudents() {
     const response = await api.get(
       searchName
-        ? `students?searchName=${searchName}?page=${page}`
+        ? `students?searchName=${searchName}&page=${page}`
         : `students?page=${page}`
     );
 
