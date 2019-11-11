@@ -10,6 +10,7 @@ import PlanList from "../pages/PlanList";
 import PlanRegister from "../pages/PlanRegister";
 import MatriculateRegister from "../pages/MatriculateRegister";
 import MatriculateList from "../pages/MatriculateList";
+import Orders from "../pages/Orders";
 
 export default function Routes() {
   return (
@@ -51,6 +52,8 @@ export default function Routes() {
         component={MatriculateRegister}
         isPrivate
       />
+
+      <Route path="/orders" exact component={Orders} isPrivate />
 
       <Route path="/" component={() => <h1>404</h1>} />
     </Switch>
