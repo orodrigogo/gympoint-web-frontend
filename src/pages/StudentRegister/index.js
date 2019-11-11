@@ -3,6 +3,7 @@ import { MdControlPoint, MdArrowBack } from "react-icons/md";
 import { Form, Input } from "@rocketseat/unform";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { decimalMask, numverMask } from "../../utils/ format";
 
 import { Container, Content } from "./styles";
 
@@ -129,9 +130,9 @@ export default function StudentRegister({ match }) {
               <h3>IDADE</h3>
               <Input
                 name="age"
-                type="number"
+                type="text"
                 value={student ? student.age : null}
-                onChange={e => setStudent({ age: e.target.value })}
+                onChange={e => setStudent({ age: numverMask(e.target.value) })}
               />
             </div>
 
@@ -141,7 +142,9 @@ export default function StudentRegister({ match }) {
                 name="weight"
                 type="text"
                 value={student ? student.weight : null}
-                onChange={e => setStudent({ weight: e.target.value })}
+                onChange={e =>
+                  setStudent({ weight: decimalMask(e.target.value) })
+                }
               />
             </div>
 
@@ -151,7 +154,9 @@ export default function StudentRegister({ match }) {
                 name="height"
                 type="text"
                 value={student ? student.height : null}
-                onChange={e => setStudent({ height: e.target.value })}
+                onChange={e =>
+                  setStudent({ height: decimalMask(e.target.value) })
+                }
               />
             </div>
           </div>
