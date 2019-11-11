@@ -4,4 +4,4 @@ Versão web destinada aos instrutores da academia. Os alunos utilizam a versão 
 
 # Demonstração da Interface
 
-![Alt Text](demo_gympoint.gif)
+![Alt Text](demogym.gif)
