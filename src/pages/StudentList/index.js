@@ -4,27 +4,28 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import history from "../../services/history";
 
-import { Container, Content } from "./styles";
+import { Container, Content, PageActions } from "./styles";
 
 import api from "../../services/api";
 
 export default function StudentList() {
   const [searchName, setSearchName] = useState();
   const [students, setStudents] = useState([]);
+  const [page, setPage] = useState(1);
+
+  async function searchStudents() {
+    const response = await api.get(
+      searchName
+        ? `students?searchName=${searchName}?page=${page}`
+        : `students?page=${page}`
+    );
+
+    setStudents(response.data);
+  }
 
   useEffect(() => {
-    async function searchStudents() {
-      const response = await api.get(
-        searchName ? `students?searchName=${searchName}` : "students"
-      );
-
-      setStudents(response.data);
-    }
-
     searchStudents();
-
-    console.tron.log(students);
-  }, [searchName]);
+  }, [searchName, page]);
 
   async function handleDelete(id) {
     if (window.confirm("Deseja realmente excluír esse aluno?")) {
@@ -46,6 +47,10 @@ export default function StudentList() {
 
   async function handleEdit(id) {
     history.push(`studentregister/${id}`);
+  }
+
+  function handlePage(action) {
+    setPage(action === "back" ? page - 1 : page + 1);
   }
 
   return (
@@ -103,6 +108,19 @@ export default function StudentList() {
           </tbody>
         </table>
       </Content>
+      <PageActions>
+        <button
+          type="button"
+          onClick={() => handlePage("back")}
+          disabled={page < 2}
+        >
+          Anterior
+        </button>
+        <span>Página {page}</span>
+        <button type="button" onClick={() => handlePage("next")}>
+          Próximo
+        </button>
+      </PageActions>
     </Container>
   );
 }

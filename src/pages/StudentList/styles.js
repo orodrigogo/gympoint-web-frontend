@@ -119,3 +119,22 @@ export const Content = styled.div`
     }
   }
 `;
+
+export const PageActions = styled.div`
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  button {
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #ee4d64;
+    color: #fff;
+  }
+
+  span {
+    margin: 0 10px;
+  }
+`;
