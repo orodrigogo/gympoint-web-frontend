@@ -15,13 +15,17 @@ export default createGlobalStyle`
 }
 html, body, #root{
   height: 100%;
+
 }
 body{
   -webkit-font-smoothing: antialiased;
+  min-width: 1200px;
+
 }
 body, input, button {
   font: 14px 'Roboto', sans-serif;
   background: #F5F5F5;
+
 }
 a {
   text-decoration: none;
