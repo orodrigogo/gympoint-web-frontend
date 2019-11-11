@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdControlPoint } from "react-icons/md";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import history from "../../services/history";
 
 import { Container, Content } from "./styles";
@@ -22,21 +23,31 @@ export default function Plan() {
   }, []);
 
   async function handleDelete(id) {
-    if (window.confirm("Deseja realmente excluír esse plano?")) {
-      await api
-        .delete(`plans/${id}`)
-        .then(response => {
-          if (response.data.deleted) {
-            toast.success("Plano excluído com sucesso!");
-            loadPlans();
-          }
-        })
-        .catch(error => {
-          toast.error(
-            `Não foi possível excluír o plano. Detalhes: ${error.message}`
-          );
-        });
-    }
+    Swal.fire({
+      title: "Remover Plano",
+      text: "Você realmente deseja remover este plano?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, remover!"
+    }).then(async result => {
+      if (result.value) {
+        await api
+          .delete(`plans/${id}`)
+          .then(response => {
+            if (response.data.deleted) {
+              toast.success("Plano excluído com sucesso!");
+              loadPlans();
+            }
+          })
+          .catch(error => {
+            toast.error(
+              `Não foi possível excluír o plano. Detalhes: ${error.message}`
+            );
+          });
+      }
+    });
   }
 
   async function handleEdit(id) {

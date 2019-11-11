@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MdControlPoint, MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import history from "../../services/history";
 
 import { Container, Content, PageActions } from "./styles";
@@ -28,21 +29,31 @@ export default function StudentList() {
   }, [searchName, page]);
 
   async function handleDelete(id) {
-    if (window.confirm("Deseja realmente excluír esse aluno?")) {
-      await api
-        .delete(`students/${id}`)
-        .then(response => {
-          if (response.data.deleted) {
-            toast.success("Usuário excluído com sucesso!");
-            setSearchName("");
-          }
-        })
-        .catch(error => {
-          toast.error(
-            `Não foi possível excluír o aluno. Detalhes: ${error.message}`
-          );
-        });
-    }
+    Swal.fire({
+      title: "Remover Aluno",
+      text: "Você realmente deseja remover este aluno?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sim, remover!"
+    }).then(async result => {
+      if (result.value) {
+        await api
+          .delete(`students/${id}`)
+          .then(response => {
+            if (response.data.deleted) {
+              toast.success("Usuário excluído com sucesso!");
+              setSearchName("");
+            }
+          })
+          .catch(error => {
+            toast.error(
+              `Não foi possível excluír o aluno. Detalhes: ${error.message}`
+            );
+          });
+      }
+    });
   }
 
   async function handleEdit(id) {

@@ -3,7 +3,7 @@ import { MdControlPoint, MdArrowBack } from "react-icons/md";
 import { Form, Input } from "@rocketseat/unform";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { formatPrice } from "../../utils/ format";
+import { formatPrice, numberMask, moneyMask } from "../../utils/ format";
 
 import { Container, Content } from "./styles";
 
@@ -124,9 +124,9 @@ export default function PlanRegister({ match }) {
               <h3>DURAÇÃO (em meses)</h3>
               <Input
                 name="duration"
-                type="number"
+                type="text"
                 value={duration || null}
-                onChange={e => setDuration(e.target.value)}
+                onChange={e => setDuration(numberMask(e.target.value))}
               />
             </div>
 
@@ -135,7 +135,7 @@ export default function PlanRegister({ match }) {
               <Input
                 name="price"
                 value={price || null}
-                onChange={e => setPrice(e.target.value)}
+                onChange={e => setPrice(moneyMask(e.target.value))}
               />
             </div>
 
