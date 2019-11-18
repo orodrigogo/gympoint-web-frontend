@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { formatRelative, parseISO } from "date-fns";
+import pt from "date-fns/locale/pt";
 
 import { Container, Content, PageActions } from "./styles";
 
@@ -46,7 +48,12 @@ export default function Orders() {
             <tbody>
               {orders.map(order => (
                 <tr>
-                  <td>{order.student.name}</td>
+                  <td>
+                    {order.student.name} -{" "}
+                    {formatRelative(parseISO(order.createdAt), new Date(), {
+                      locale: pt
+                    })}
+                  </td>
                   <td>
                     <button
                       className="btnEdit"
